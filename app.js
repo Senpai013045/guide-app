@@ -54,4 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var items = document.querySelectorAll(".collapsible");
   M.Collapsible.init(items);
 });
+<<<<<<< HEAD
 //this is master branch
+=======
+//this is feature1
+>>>>>>> feature1
