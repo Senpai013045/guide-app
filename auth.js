@@ -39,12 +39,15 @@ signupForm.addEventListener("submit", (e) => {
   const password = signupForm["signup-password"].value;
   startSpin();
   auth.createUserWithEmailAndPassword(email, password).then((cred) => {
-    // console.log(cred.user);
-
-    stopSpin();
-    const modal = document.querySelector("#modal-signup");
-    M.Modal.getInstance(modal).close();
-    signupForm.reset();
+    db.collection("users")
+      .doc(cred.user.uid)
+      .set({ bio: signupForm["signup-bio"].value })
+      .then((res) => {
+        stopSpin();
+        const modal = document.querySelector("#modal-signup");
+        M.Modal.getInstance(modal).close();
+        signupForm.reset();
+      });
   });
 });
 
