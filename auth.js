@@ -1,3 +1,13 @@
+//admin UI
+const adminForm = document.querySelector(".admin-actions");
+adminForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const addAdminRole = functions.httpsCallable("addAdminRole");
+  addAdminRole({ email: adminForm["admin-email"].value }).then((result) => {
+    console.log(result);
+  });
+});
+
 //tracking auth status
 auth.onAuthStateChanged((user) => {
   if (user) {

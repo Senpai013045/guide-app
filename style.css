@@ -4,3 +4,7 @@ h5 {
 ul#nav-mobile > li {
   display: none;
 }
+form.admin-actions {
+  margin: 40px auto;
+  max-width: 300px;
+}
