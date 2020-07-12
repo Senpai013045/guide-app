@@ -29,7 +29,6 @@ function toggleNav(user) {
       item.style.display = "none";
     });
     //admin items setup
-    console.log("admin is", user.admin);
     if (user.admin) {
       adminItems.forEach((item) => {
         item.style.display = "block";
