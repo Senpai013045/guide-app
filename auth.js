@@ -48,17 +48,26 @@ signupForm.addEventListener("submit", (e) => {
   const email = signupForm["signup-email"].value;
   const password = signupForm["signup-password"].value;
   startSpin();
-  auth.createUserWithEmailAndPassword(email, password).then((cred) => {
-    db.collection("users")
-      .doc(cred.user.uid)
-      .set({ bio: signupForm["signup-bio"].value })
-      .then((res) => {
-        stopSpin();
-        const modal = document.querySelector("#modal-signup");
-        M.Modal.getInstance(modal).close();
-        signupForm.reset();
-      });
-  });
+  auth
+    .createUserWithEmailAndPassword(email, password)
+    .then((cred) => {
+      console.log("user cred on signup", cred.user.uid);
+      db.collection("users")
+        .doc(cred.user.uid)
+        .set({ bio: signupForm["signup-bio"].value })
+        .then((res) => {
+          stopSpin();
+          const modal = document.querySelector("#modal-signup");
+          M.Modal.getInstance(modal).close();
+          signupForm.reset();
+        })
+        .catch((err) => {
+          console.log("Error on bio: ", err);
+        });
+    })
+    .catch((err) => {
+      console.log("Error on signup: ", err);
+    });
 });
 
 //logging out
@@ -66,6 +75,7 @@ const logout = document.querySelector("#logout");
 logout.addEventListener("click", (e) => {
   e.preventDefault();
   auth.signOut();
+  location.reload();
 });
 
 //signing users in

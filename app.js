@@ -35,6 +35,7 @@ function toggleNav(user) {
     <h6>Logged in as ${user.email}</h6>
     <h6>${doc.data().bio}</h6>
     `;
+        console.log(doc.data().bio);
         accdetails.innerHTML = html;
       });
   } else {
