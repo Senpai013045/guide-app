@@ -3,9 +3,15 @@ const adminForm = document.querySelector(".admin-actions");
 adminForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const addAdminRole = functions.httpsCallable("addAdminRole");
-  addAdminRole({ email: adminForm["admin-email"].value }).then((result) => {
-    console.log(result);
-  });
+  addAdminRole({ email: adminForm["admin-email"].value })
+    .then((result) => {
+      console.log(result);
+      adminForm.reset();
+      adminForm.querySelector(".error").innerHTML = "";
+    })
+    .catch((err) => {
+      adminForm.querySelector(".error").innerHTML = err.message;
+    });
 });
 
 //tracking auth status
@@ -64,13 +70,12 @@ signupForm.addEventListener("submit", (e) => {
           const modal = document.querySelector("#modal-signup");
           M.Modal.getInstance(modal).close();
           signupForm.reset();
-        })
-        .catch((err) => {
-          console.log("Error on bio: ", err);
+          signupForm.querySelector(".error").innerHTML = "";
         });
     })
     .catch((err) => {
-      console.log("Error on signup: ", err);
+      signupForm.querySelector(".error").innerHTML = err.message;
+      stopSpin();
     });
 });
 
@@ -90,12 +95,19 @@ loginForm.addEventListener("submit", (e) => {
   const email = loginForm["login-email"].value;
   const password = loginForm["login-password"].value;
   startSpin();
-  auth.signInWithEmailAndPassword(email, password).then((cred) => {
-    stopSpin();
-    const modal = document.querySelector("#modal-login");
-    M.Modal.getInstance(modal).close();
-    loginForm.reset();
-  });
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then((cred) => {
+      stopSpin();
+      const modal = document.querySelector("#modal-login");
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+      loginForm.querySelector(".error").innerHTML = "";
+    })
+    .catch((err) => {
+      loginForm.querySelector(".error").innerHTML = err.message;
+      stopSpin();
+    });
 });
 
 //create form
