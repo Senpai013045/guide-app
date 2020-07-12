@@ -18,6 +18,8 @@ function setupGuides(docs) {
 let loggedInLinks = document.querySelectorAll(".logged-in");
 let loggedOutLinks = document.querySelectorAll(".logged-out");
 let accdetails = document.querySelector(".account-details");
+let adminItems = document.querySelectorAll(".admin");
+
 function toggleNav(user) {
   if (user) {
     loggedInLinks.forEach((item) => {
@@ -26,6 +28,17 @@ function toggleNav(user) {
     loggedOutLinks.forEach((item) => {
       item.style.display = "none";
     });
+    //admin items setup
+    console.log("admin is", user.admin);
+    if (user.admin) {
+      adminItems.forEach((item) => {
+        item.style.display = "block";
+      });
+    } else {
+      adminItems.forEach((item) => {
+        item.style.display = "none";
+      });
+    }
     //now get data
     db.collection("users")
       .doc(user.uid)
@@ -34,8 +47,9 @@ function toggleNav(user) {
         const html = `
     <h6>Logged in as ${user.email}</h6>
     <h6>${doc.data().bio}</h6>
+    <h6 class="pink-text">${user.admin ? "Admin" : ""}</h6>
     `;
-        console.log(doc.data().bio);
+        //console.log(doc.data().bio);
         accdetails.innerHTML = html;
       });
   } else {

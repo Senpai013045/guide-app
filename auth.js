@@ -11,6 +11,10 @@ adminForm.addEventListener("submit", (e) => {
 //tracking auth status
 auth.onAuthStateChanged((user) => {
   if (user) {
+    user.getIdTokenResult().then((idTokenResult) => {
+      user.admin = idTokenResult.claims.admin;
+      toggleNav(user);
+    });
     //database get
     db.collection("guides").onSnapshot(
       (snapshot) => {
@@ -21,10 +25,10 @@ auth.onAuthStateChanged((user) => {
       }
     );
   } else {
+    toggleNav(user);
     let ul = document.querySelector("ul.guides");
     ul.innerHTML = `<h5 class="center-align">Please Log In to view the documents</h5>`;
   }
-  toggleNav(user);
 });
 
 //toggling loading functions
